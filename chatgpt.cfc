@@ -70,7 +70,6 @@ component accessors="true" {
         numeric logprobs,
         boolean echo,
         array stop,
-        numeric max_tokens,
         numeric presence_penalty,
         numeric frequency_penalty,
         numeric best_of
