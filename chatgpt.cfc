@@ -206,11 +206,28 @@ component accessors="true" {
     private struct function filterParams( required struct params ){
         var filtered = {};
         for( var key in arguments.params ){
-            if( !isEmpty( arguments.params[ key ] ) ){
-                filtered[ key ] = arguments.params[ key ];
+            if( !paramIsEmpty( arguments.params[ key ] ) ){
+                filtered[ lCase(key) ] = arguments.params[ key ];
             }
         }
         return filtered;
+    }
+
+    private boolean function paramIsEmpty( any param ){
+        if( NOT structKeyExists(arguments, "param") ){
+            return true;
+        }
+        if( isStruct(arguments.param) AND structIsEmpty(arguments.param) ){
+            return true;
+        } else if( isArray(arguments.param) AND arrayIsEmpty(arguments.param) ){
+            return true;
+        } else if( isQuery(arguments.param) AND arguments.param.recordcount IS 0 ){
+            return true;
+        } else if( isSimpleValue(arguments.param) AND NOT len(arguments.param) ){
+            return true;
+        } else {
+            return false;
+        }
     }
     /***** DANCING FOR MONEY *****/
 
